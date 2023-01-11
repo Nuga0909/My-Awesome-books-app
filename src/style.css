@@ -1,7 +1,15 @@
-body {
-    background-color: bisque;
+* {
+  padding: 0;
+  margin: 0;
 }
 
-.hello {
-    color: green;
-  }
+h1 {
+  padding-bottom: 30px;
+}
+
+.display {
+  border-bottom: 1px solid black;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  width: 50%;
+}
