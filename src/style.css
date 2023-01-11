@@ -19,3 +19,11 @@ h1 {
   flex-direction: column;
   width: fit-content;
 }
+
+input {
+  margin-bottom: 10px;
+}
+
+#submit {
+  width: fit-content;
+}
