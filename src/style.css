@@ -9,7 +9,13 @@ h1 {
 
 .display {
   border-bottom: 1px solid black;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   padding-bottom: 10px;
   width: 50%;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
 }
