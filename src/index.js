@@ -2,15 +2,17 @@ import _ from 'lodash';
 import './style.css';
 
 const books = [
-  {
-    title: 'book1',
-    author: 'author1'
-},
-{
-  title: 'book2',
-  author: 'author2'
-},
+  // {
+  //   title: 'book1',
+  //   author: 'author1'
+  // },
+  // {
+  //   title: 'book2',
+  //   author: 'author2'
+  // },
 ];
+
+const display = document.querySelector('.display-ul');
 
 function addBook(title, author) {
   const obj = {};
@@ -19,9 +21,19 @@ function addBook(title, author) {
   obj['title'] = newTitle;
   obj['author'] = newAuthor;
   books.push(obj);
+
+  display.innerHTML += `
+        <li>
+          <p class="title">${title}</p>
+          <p class="author">${author}</p>
+          <button class="remove">Remove</button>    
+        </li>
+`
 }
 
-addBook('book3', 'author3');
+addBook('book1', 'author1');
+addBook('book2', 'author2');
+
 
 console.log(books);
 
