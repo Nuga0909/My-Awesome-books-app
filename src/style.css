@@ -3,6 +3,10 @@
   margin: 0;
 }
 
+div.container {
+  padding-left: 20rem;
+}
+
 h1 {
   padding-bottom: 30px;
 }
