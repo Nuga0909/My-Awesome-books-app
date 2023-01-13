@@ -3,13 +3,35 @@
   margin: 0;
 }
 
+div.container {
+  padding-left: 20rem;
+}
+
 h1 {
   padding-bottom: 30px;
 }
 
-.display {
+li {
   border-bottom: 1px solid black;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   padding-bottom: 10px;
   width: 50%;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+input {
+  margin-bottom: 10px;
+}
+
+#submit {
+  width: fit-content;
+}
+
+li {
+  list-style: none;
 }
