@@ -64,10 +64,11 @@ add.addEventListener("click", () => {
   Allbooks.push(newbook);
   Books.addBook();
   localStorage.setItem("Allbooks", JSON.stringify(Allbooks));
-  console.log(Allbooks);
+  window.alert('New book added successfully!')
 });
 
 // remove a book
 display.addEventListener("click", (e) => {
  Books.removeBook(e);
+ window.alert('Book deleted successfully!')
 });
