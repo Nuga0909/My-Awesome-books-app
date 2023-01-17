@@ -1,59 +1,56 @@
 import "./style.css";
 
-let books = [];
+let Allbooks = [];
 
 const display = document.querySelector(".display-ul");
 const inputTitle = document.querySelector("#input-title");
 const inputAuthor = document.querySelector("#input-author");
 const add = document.querySelector("#submit");
 
-// const newTitle = inputTitle.value;
-// const newAuthor = inputAuthor.value;
-// const id = books.length;
-
-// const obj = {
-//   title: newTitle,
-//   author: newAuthor,
-//   id,
-// };
-
 class Books {
   constructor(title, author) {
     this.title = title;
     this.author = author;
-    this.id = books.length++
   }
 
-  addBook() {
+  static addBook() {
     display.innerHTML = "";
-  for(let i=0; i<books.length; i++) {
-    display.innerHTML += `
+    for (let i = 0; i < Allbooks.length; i++) {
+      display.innerHTML += `
         <li>
-          <p class="title">${books[i].title}</p>
-          <p class="author">${books[i].author}</p>
-          <button class="remove" onclick="Books.remove(${i})">Remove</button>    
+          <p class="title">${Allbooks[i].title}</p>
+          <p class="author">${Allbooks[i].author}</p>
+          <button class="remove" onclick='Books.removeBook(${i})'>Remove</button>    
         </li>
     `;
-  };
-
-  title.value = "";
-  author.value = "";
-  title.focus();
+      inputTitle.value = "";
+      inputAuthor.value = "";
+      inputTitle.focus();
+    }
   }
 
-  removebook(index) {
-    books.splice(index, 1);
+  static removeBook(index) {
+    Allbooks = JSON.parse(localStorage.getItem("Allbooks"));
+    Allbooks.splice(index, 1);
     Books.addBook();
-    localStorage.setItem("books", JSON.stringify(books));
+    localStorage.setItem("Allbooks", JSON.stringify(Allbooks));
   }
 }
 
 // load screen upon page refresh from local storage
 window.onload = () => {
-  books = JSON.parse(localStorage.getItem("books"));
+  if (localStorage.getItem("Allbooks")) {
+    Allbooks = JSON.parse(localStorage.getItem("Allbooks"));
 
-  Books.addBook();
+    Books.addBook();
+  }
 };
 
 // add new book from add button
-
+add.addEventListener("click", () => {
+  const newbook = new Books(inputTitle.value, inputAuthor.value);
+  Allbooks.push(newbook);
+  Books.addBook();
+  localStorage.setItem("Allbooks", JSON.stringify(Allbooks));
+  console.log(Allbooks);
+});
