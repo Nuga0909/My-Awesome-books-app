@@ -11,6 +11,7 @@ class Books {
   constructor(title, author) {
     this.title = title;
     this.author = author;
+    this.id = Allbooks.length;
   }
 
   static addBook() {
@@ -20,7 +21,7 @@ class Books {
         <li>
           <p class="title">${Allbooks[i].title}</p>
           <p class="author">${Allbooks[i].author}</p>
-          <button class="remove" onclick='Books.removeBook(${i})'>Remove</button>    
+          <button class="remove" id="${i}">Remove</button>    
         </li>
     `;
       inputTitle.value = "";
@@ -29,11 +30,22 @@ class Books {
     }
   }
 
-  static removeBook(index) {
-    Allbooks = JSON.parse(localStorage.getItem("Allbooks"));
-    Allbooks.splice(index, 1);
-    Books.addBook();
-    localStorage.setItem("Allbooks", JSON.stringify(Allbooks));
+  static removeBook(e) {
+    if (e.target.hasAttribute("id")) {
+      const btnId = Number.parseInt(e.target.getAttribute("id"), 10);
+      Allbooks = Allbooks.filter((book) => book.id !== btnId);
+  
+      // Reassign indexes
+      Allbooks.forEach((book, index) => {
+        book.id = index;
+      });
+  
+      localStorage.setItem("Allbooks", JSON.stringify(Allbooks));
+  
+      Books.addBook();
+    }
+    
+    
   }
 }
 
@@ -53,4 +65,9 @@ add.addEventListener("click", () => {
   Books.addBook();
   localStorage.setItem("Allbooks", JSON.stringify(Allbooks));
   console.log(Allbooks);
+});
+
+// remove a book
+display.addEventListener("click", (e) => {
+ Books.removeBook(e);
 });
