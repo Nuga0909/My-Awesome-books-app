@@ -1,86 +1,74 @@
-import _, { update } from "lodash";
 import "./style.css";
 
-let books = [];
+let Allbooks = [];
 
 const display = document.querySelector(".display-ul");
 const inputTitle = document.querySelector("#input-title");
 const inputAuthor = document.querySelector("#input-author");
-
-function addBook() {
-  const newTitle = inputTitle.value;
-  const newAuthor = inputAuthor.value;
-  const id = books.length;
-
-  const obj = {
-    title: newTitle,
-    author: newAuthor,
-    id,
-  };
-
-  books.push(obj);
-
-  localStorage.setItem("books", JSON.stringify(books));
-
-  display.innerHTML = "";
-  books.forEach((book) => {
-    display.innerHTML += `
-        <li>
-          <p class="title">${book.title}</p>
-          <p class="author">${book.author}</p>
-          <button class="remove" id="${book.id}">Remove</button>    
-        </li>
-    `;
-  });
-}
-
-// Add New book though Add button
 const add = document.querySelector("#submit");
 
-add.addEventListener("click", () => {
-  addBook(inputTitle.value, inputAuthor.value);
-
-  inputTitle.value = "";
-  inputAuthor.value = "";
-});
-
-display.addEventListener("click", (e) => {
-  if (e.target.hasAttribute("id")) {
-    const btnId = Number.parseInt(e.target.getAttribute("id"), 10);
-    books = books.filter((book) => book.id !== btnId);
-
-    // Reassign indexes
-    books.forEach((book, index) => {
-      book.id = index;
-    });
-
-    localStorage.setItem("books", JSON.stringify(books));
-
-    display.innerHTML = "";
-    books.forEach((book) => {
-      display.innerHTML += `
-          <li>
-            <p class="title">${book.title}</p>
-            <p class="author">${book.author}</p>
-            <button class="remove" id="${book.id}">Remove</button>    
-          </li>
-      `;
-    });
+class Books {
+  constructor(title, author) {
+    this.title = title;
+    this.author = author;
+    this.id = Allbooks.length;
   }
-});
+
+  static addBook() {
+    display.innerHTML = "";
+    for (let i = 0; i < Allbooks.length; i++) {
+      display.innerHTML += `
+        <li>
+          <p class="title">${Allbooks[i].title}</p>
+          <p class="author">${Allbooks[i].author}</p>
+          <button class="remove" id="${i}">Remove</button>    
+        </li>
+    `;
+      inputTitle.value = "";
+      inputAuthor.value = "";
+      inputTitle.focus();
+    }
+  }
+
+  static removeBook(e) {
+    if (e.target.hasAttribute("id")) {
+      const btnId = Number.parseInt(e.target.getAttribute("id"), 10);
+      Allbooks = Allbooks.filter((book) => book.id !== btnId);
+  
+      // Reassign indexes
+      Allbooks.forEach((book, index) => {
+        book.id = index;
+      });
+  
+      localStorage.setItem("Allbooks", JSON.stringify(Allbooks));
+  
+      Books.addBook();
+    }
+    
+    
+  }
+}
 
 // load screen upon page refresh from local storage
 window.onload = () => {
-  books = JSON.parse(localStorage.getItem("books"));
+  if (localStorage.getItem("Allbooks")) {
+    Allbooks = JSON.parse(localStorage.getItem("Allbooks"));
 
-  display.innerHTML = "";
-  books.forEach((book) => {
-    display.innerHTML += `
-        <li>
-          <p class="title">${book.title}</p>
-          <p class="author">${book.author}</p>
-          <button class="remove" id="${book.id}">Remove</button>    
-        </li>
-    `;
-  });
+    Books.addBook();
+  }
 };
+
+// add new book from add button
+add.addEventListener("click", () => {
+  const newbook = new Books(inputTitle.value, inputAuthor.value);
+  Allbooks.push(newbook);
+  Books.addBook();
+  localStorage.setItem("Allbooks", JSON.stringify(Allbooks));
+  window.alert('New book added successfully!')
+});
+
+// remove a book
+display.addEventListener("click", (e) => {
+ Books.removeBook(e);
+ window.alert('Book deleted successfully!')
+});
